@@ -7,7 +7,7 @@ function App() {
     <div className="grid h-screen w-screen place-content-center overflow-hidden">
       <PilingContainer>
         {images.map(url => (
-          <img key={url} src={url} alt={url} />
+          <img key={url} src={url} alt={url} className="absolute inset-0"/>
         ))}
       </PilingContainer>
     </div>
