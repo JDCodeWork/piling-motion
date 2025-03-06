@@ -10,23 +10,27 @@ export const PilingContainer = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     document.addEventListener('keydown', handleOnKeyDown)
+    document.addEventListener('wheel', handleOnWheel)
 
-    return () => document.removeEventListener('keydown', handleOnKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleOnKeyDown)
+      document.removeEventListener('wheel', handleOnWheel)
+    }
   }, []);
 
   const handleOnKeyDown = (e: KeyboardEvent) => {
-    switch (e.key) {
-      case 'w':
-      case 'ArrowUp':
-        handleOnUp()
-        break;
-      case 's':
-      case 'ArrowDown':
-        handleOnDown()
-        break;
-      default:
-        break;
+    if (e.key == "w" || e.key == "ArrowUp") {
+      return handleOnUp()
     }
+
+    if (e.key == "s" || e.key == "ArrowDown") {
+      return handleOnDown()
+    }
+  }
+
+  const handleOnWheel = (e: WheelEvent) => {
+    if (e.deltaY < 0) handleOnUp()
+    else handleOnDown()
   }
 
   const handleOnUp = () => {
@@ -37,11 +41,17 @@ export const PilingContainer = ({ children }: PropsWithChildren) => {
     setView(prev => prev - 1)
   }
 
+  useEffect(() => {
+    console.log('view', view)
+  }, [view]);
+
   return (
-    <motion.div
-      className="grid h-screen w-screen place-content-center"
-    >
-      {content[Math.abs(view) % content.length]}
-    </motion.div>
+    <div className="rounded-2xl shadow-2xl w-[740px] h-[400px] overflow-hidden">
+      <motion.div
+        className="h-full w-full"
+      >
+        {content[Math.abs(view) % content.length]}
+      </motion.div>
+    </div>
   )
 }

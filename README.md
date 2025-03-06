@@ -38,3 +38,9 @@ Start the development server
 ```bash
   npm run dev
 ```
+
+## References
+
+This project was inspired by the following resources:
+
+- [React + Vite Curso #20: Creando una sección scrolleable con Framer Motion](https://youtu.be/wr_3zkh08vo?si=NPlCSukmsw0_Kbeg) - YouTube Video by **Ángel Software Dev**.
