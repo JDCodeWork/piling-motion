@@ -1,4 +1,4 @@
-import { useState, Children, useEffect, ReactNode } from "react";
+import { useState, Children, useEffect, ReactNode, useRef } from "react";
 
 export type Direction = 'none' | 'up' | 'down'
 
@@ -8,6 +8,8 @@ interface Props {
 export const usePiling = ({ children }: Props) => {
   const [view, setView] = useState(0)
   const [direction, setDirection] = useState<Direction>('none')
+
+  const isAnimating = useRef(false)
 
   const content = Children.map(children, child => child) ?? []
 
@@ -37,18 +39,29 @@ export const usePiling = ({ children }: Props) => {
   }
 
   const handleOnUp = () => {
+    if (isAnimating.current) return
+
     setDirection('up')
     setView(prev => prev + 1)
+
+    isAnimating.current = true;
   }
 
   const handleOnDown = () => {
+    if (isAnimating.current) return
+
     setDirection('down')
     setView(prev => prev - 1)
+
+    isAnimating.current = true;
   }
+
+  const handleEndAnimation = () => isAnimating.current = false
 
   return {
     view,
     content,
-    direction
+    direction,
+    handleEndAnimation
   }
 }

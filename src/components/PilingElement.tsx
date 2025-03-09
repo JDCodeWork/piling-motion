@@ -29,8 +29,9 @@ const variants: Variants = {
 interface Props {
   view: number
   content: ReactNode[]
+  onEndAnimation?: () => void
 }
-export const PilingElement = ({ view, content }: Props) => {
+export const PilingElement = ({ view, content, onEndAnimation }: Props) => {
   const direction = usePresenceData()
 
   return (
@@ -42,6 +43,7 @@ export const PilingElement = ({ view, content }: Props) => {
       initial="start"
       animate="animation"
       exit="end"
+      onAnimationComplete={onEndAnimation}
       layout
     >
       {content[Math.abs(view) % content.length]}
